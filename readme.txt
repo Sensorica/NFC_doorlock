@@ -17,6 +17,7 @@ Installation:
 * NFC Reader to Raspberry Pi diagram:
   (RC522) --- (GPIO RaspPi)
      3.3v --- 1  (3V3)
+      SDA --- 24 (GPIO08) 
       SCK --- 23 (GPIO11)
      MOSI --- 19 (GPIO10)
      MISO --- 21 (GPIO09)
