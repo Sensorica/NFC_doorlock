@@ -6,7 +6,26 @@
   for visitors without an access pass.
   Written by Jim Anastassiou
   Inspired by https://github.com/miguelbalboa/rfid
+ 
+  Arduino RFID Access Control
+  Security !
+  To keep it simple we are going to use Tag's Unique IDs
+  as only method of Authenticity. It's simple and not hacker proof.
+  If you need security, don't use it unless you modify the code
+  Copyright (C) 2015 Omer Siar Baysal
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  You should have received a copy of the GNU General Public License along
+  with this program; if not, write to the Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */ 
+
 
 
 
