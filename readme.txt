@@ -1,8 +1,6 @@
 This project is about developing a multi functional NFC enabled doorlock for the exterior entrance to the new SENSORICA lab space.
-The proof of concept will simply provide access using NFC tags. 
+The proof of concept will provide access using NFC while controling an LED strip to inform of system state (access granted, access refused, programming mode, etc..). A motion sensor will provide some interactivity and a wireless remote will also grant access to the lab space from within and notify the lab responsible that there is someone at the door.  
 
-TODO:
-*
 
 The first prototype is built using materials at the lab and NeoPixel strip donated by the KING:
 
