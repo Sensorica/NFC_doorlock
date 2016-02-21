@@ -4,6 +4,8 @@
   as well ( access granted, rejected, programming mode etc...) A motion sensor changes the behavior
   of the LED's when approaching the door and a wireless button allows opening the door by remote
   for visitors without an access pass.
+  Written by Jim Anastassiou
+  Inspired by https://github.com/miguelbalboa/rfid
 */ 
 
 
