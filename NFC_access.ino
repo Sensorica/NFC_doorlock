@@ -4,28 +4,7 @@
   as well ( access granted, rejected, programming mode etc...) A motion sensor changes the behavior
   of the LED's when approaching the door and a wireless button allows opening the door by remote
   for visitors without an access pass.
-  Written by Jim Anastassiou
-  Inspired by https://github.com/miguelbalboa/rfid
- 
-  Arduino RFID Access Control
-  Security !
-  To keep it simple we are going to use Tag's Unique IDs
-  as only method of Authenticity. It's simple and not hacker proof.
-  If you need security, don't use it unless you modify the code
-  Copyright (C) 2015 Omer Siar Baysal
-  This program is free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation; either version 2 of the License, or
-  (at your option) any later version.
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-  You should have received a copy of the GNU General Public License along
-  with this program; if not, write to the Free Software Foundation, Inc.,
-  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */ 
-
 
 
 
@@ -34,11 +13,20 @@
 #include <SPI.h>        // RC522 Module uses SPI protocol
 #include <MFRC522.h>	// Library for Mifare RC522 Devices
 
+#define ORANGE_RED 0xFF1000
+#define PURPLE 0xFF00FF
+#define BLUE 0x0000FF
+#define RED 0xFF0000
+#define GREEN 0x00FF00
+#define YELLOW 0xFFFF00
+#define CYAN 0x00FFFF
+#define WHITE 0xFFFFFF
 
+ 
 #define PIN A0
 #define NUM_PIXELS  108
  uint32_t colors = 0x0000FF;
-  int pcount = 1;
+ int pcount = 1;
  boolean up = true;
  uint32_t old_val[NUM_PIXELS];
 
@@ -161,11 +149,11 @@ void loop () {
   do {
     successRead = getID(); 	// sets successRead to 1 when we get read from reader otherwise 0
     if (programMode) {
-     // ************************Viz for proramming mode
+     lights(2,YELLOW);// ************************Viz for proramming mode
     }
     else {
       normalModeOn(); 
-      lights(2,0x0000FF);		// Normal mode, blue Power LED is on, all others are off
+      lights(2,BLUE);		// Normal mode, blue Power LED is on, all others are off
     }
   }
   while (!successRead); 	//the program will not go further while you not get a successful read
@@ -218,15 +206,16 @@ void loop () {
 /////////////////////////////////////////  Access Granted    ///////////////////////////////////
 void granted (int setDelay) {
   
+  lightMode(GREEN);//******************Viz for opening door
   digitalWrite(relay, LOW); 		// Unlock door!
   delay(setDelay); 					// Hold door lock open for given seconds
   digitalWrite(relay, HIGH); 		// Relock door
-  //******************Viz for opening door					// Hold green LED on for a second
+  					// Hold green LED on for a second
 }
 
 ///////////////////////////////////////// Access Denied  ///////////////////////////////////
 void denied() {
-  ////////////////////////////////////////Denied Viz
+  lightMode(RED);////////////////////////////////////////Denied Viz
 }
 
 
@@ -273,13 +262,13 @@ void ShowReaderDetails() {
 
 ///////////////////////////////////////// Cycle Leds (Program Mode) ///////////////////////////////////
 void cycleLeds() {
-  //***********************VIz for cycling LEDs, show activity or for programming mode
+   lights(2,YELLOW);//***********************VIz for cycling LEDs, show activity or for programming mode
 }
 
 //////////////////////////////////////// Normal Mode Led  ///////////////////////////////////
 void normalModeOn () {
-  //****************************Normal LED mode opoeration
-   //knightRider(3, 1, 2, 0xFF1000);
+   lights(2,BLUE);//****************************Normal LED mode opoeration
+  
   digitalWrite(relay, HIGH); 		// Make sure Door is Locked
 }
 
@@ -386,19 +375,19 @@ boolean findID( byte find[] ) {
 ///////////////////////////////////////// Write Success to EEPROM   ///////////////////////////////////
 // Flashes the green LED 3 times to indicate a successful write to EEPROM
 void successWrite() {
-  //************************Viz for a succefulll write to eeprom
+  lightMode(GREEN);//************************Viz for a succefulll write to eeprom
 }
 
 ///////////////////////////////////////// Write Failed to EEPROM   ///////////////////////////////////
 // Flashes the red LED 3 times to indicate a failed write to EEPROM
 void failedWrite() {
-  //*****************************Viz for a failed write to EEPROM
+  lightMode(RED);//*****************************Viz for a failed write to EEPROM
 }
 
 ///////////////////////////////////////// Success Remove UID From EEPROM  ///////////////////////////////////
 // Flashes the blue LED 3 times to indicate a success delete to EEPROM
 void successDelete() {
-  //************************Viz for a successfull delete from EEPROM
+  lightMode(RED);//************************Viz for a successfull delete from EEPROM
 }
 
 ////////////////////// Check readCard IF is masterCard   ///////////////////////////////////
@@ -448,16 +437,16 @@ uint32_t dimColor(uint32_t color, uint8_t width) {
 }
 
 void lights(uint8_t width, uint32_t color ) {
-  if (pcount = NUM_PIXELS){
+  if (pcount == NUM_PIXELS){
      up = false;
    }
-   if (pcount < 0) {
+   if (pcount == 0) {
      up = true;
    } 
   if (up && pcount < NUM_PIXELS){
       strip.setPixelColor(pcount, color);
       old_val[pcount] = color;
-      for(int x = pcount; x>0; x--) {
+      for(int x = pcount; x >0; x--) {
         old_val[x-1] = dimColor(old_val[x-1], width);
         strip.setPixelColor(x-1, old_val[x-1]); 
       }
@@ -477,4 +466,11 @@ void lights(uint8_t width, uint32_t color ) {
     
 } 
 
+void lightMode(uint32_t color) {
+  strip.show();
+  for (int x=40; x<57;x++) {
+    strip.setPixelColor(x,color);
+    strip.show();
+  }
+} 
 
