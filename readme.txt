@@ -13,7 +13,7 @@ The first prototype is built using materials at the lab and NeoPixel strip donat
 
 Installation:
 
-* NFC Reader to Raspberry Pi diagram:
+* NFC Reader to Arduino UNO R3 diagram:
   
      3.3v --- 3.3v Pin
   SDA(SS) --- Pin 10 (Configurable)
